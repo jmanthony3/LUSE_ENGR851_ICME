@@ -14,9 +14,9 @@ rm EvsA EvsV evfit.4 SUMMARY
 sT="$(date +%s)"
 
 # Set the range and number of points generated
-low=`echo 0.8\*$2 | bc` 		# Sets the lower bound to 80% of guess
-high=`echo 1.2\*$2 | bc`		# Sets the upper bound to 120% of guess
-step=`echo "($high-$low)/20" | bc -l`	# Sets stepsize such that 20 points are created
+low=`echo 0.8\*$2 | bc`                 # Sets the lower bound to 80% of guess
+high=`echo 1.2\*$2 | bc`                # Sets the upper bound to 120% of guess
+step=`echo "($high-$low)/20" | bc -l`   # Sets stepsize such that 20 points are created
 for a in `seq -w $low $step $high`
 do
 #a=2.9
