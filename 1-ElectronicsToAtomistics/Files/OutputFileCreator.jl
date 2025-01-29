@@ -72,6 +72,8 @@ elseif num_proc - under_proc < 1
     error("(num_proc=$num_proc) - (under_proc=$under_proc) = $(num_proc - under_proc) which must be greater than 1.")
 elseif num_proc - under_proc <= Threads.nthreads()
     num_proc - under_proc
+else
+    num_proc
 end
 
 # function that creates the geometry and writes the input file
