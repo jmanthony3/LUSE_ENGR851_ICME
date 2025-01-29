@@ -26,7 +26,7 @@ README.adoc.py
 !1-ElectronicsToAtomistics/Calculations/Fe.pbe-spn-kjpaw_psl.0.2.1.UPF
 !1-ElectronicsToAtomistics/Files/Cu.in
 !1-ElectronicsToAtomistics/Files/Cu.UPF
-# 1-ElectronicsToAtomistics/Files/ev_curve
+!1-ElectronicsToAtomistics/Files/ev_curve
 !1-ElectronicsToAtomistics/Files/EvA_EvV_plot.jl
 !1-ElectronicsToAtomistics/Files/EvA_EvV_plot.py
 !1-ElectronicsToAtomistics/Files/evfit.f
