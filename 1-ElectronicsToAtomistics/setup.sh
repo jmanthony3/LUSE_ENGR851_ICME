@@ -35,6 +35,14 @@ if [[ "$#" -eq 0 ]]; then
 else
     pswd=$1
 fi
+
+# add `cmake`, `gcc`, `gfortran`, and `make` capabilities.
+echo "Updating distro and including gcc, g++, gfortran, and make..."
+(set -x;
+    (echo $pswd) 2> /dev/null | sudo -S apt-get -y update
+    sudo apt-get -y install bc pv gfortran build-essential
+)
+
 computing_language=$(echo $COMPUTING_LANGUAGE | tr '[:upper:]' '[:lower:]')
 if [[ "$computing_language" == "julia" ]]; then
     cl_ext="jl"
@@ -60,13 +68,6 @@ fi
 
 ####################### INSTALL SOFTWARE ######################
 ### installing quantum espresso
-# add `cmake`, `gcc`, `gfortran`, and `make` capabilities.
-echo "Updating distro and including gcc, g++, gfortran, and make..."
-(set -x;
-    (echo $pswd) 2> /dev/null | sudo -S apt-get -y update
-    sudo apt-get -y install bc pv gfortran build-essential
-)
-
 # copy tarball into installation directory
 mkdir "$QUANTUM_ESPRESSO_INSTALL_LOC" 2> /dev/null
 cp "$execution_dir/Files/$QUANTUM_ESPRESSO_VERSION"*".tar.gz" \
