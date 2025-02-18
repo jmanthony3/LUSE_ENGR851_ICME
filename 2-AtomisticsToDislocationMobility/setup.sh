@@ -146,4 +146,5 @@ cp "MDDP08-2008" "../../Calculations/2-MDDP/"
 
 
 
+echo "Bridge (2) installed!"
 # that's all folks

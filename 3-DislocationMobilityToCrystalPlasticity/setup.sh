@@ -58,4 +58,5 @@ cp "rescale_commands.sh" "../Calculations/0-Scripts/"
 
 
 
+echo "Bridge (3) installed!"
 # that's all folks
