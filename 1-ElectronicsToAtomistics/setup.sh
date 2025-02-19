@@ -4,9 +4,9 @@
 
 #################### INSTALLATION VARIABLES ###################
 # define install path for Quantum Espresso (QE)
-QUANTUM_ESPRESSO_INSTALL_LOC=~/QuantumEspresso731
+QUANTUM_ESPRESSO_INSTALL_LOC=~/QuantumEspresso
 # encode name and version of tarball: qe-X.X.X
-QUANTUM_ESPRESSO_VERSION="qe-7.3.1"
+QUANTUM_ESPRESSO_VERSION="qe-6.0.0"
 # working language to perform calculations and plot results
 COMPUTING_LANGUAGE="Julia" # can also be "Python"
 # number of processors to use in test case
@@ -83,8 +83,9 @@ echo "Extracting tarball of $QUANTUM_ESPRESSO_VERSION..."
 
 # `cd` into that extracted folder and execute `./configure`
 echo "Configuring $QUANTUM_ESPRESSO_VERSION..."
+quantum_espresso_path=$(cd "$QUANTUM_ESPRESSO_INSTALL_LOC/"*"$QUANTUM_ESPRESSO_VERSION"; pwd)
 (set -x;
-    cd "$QUANTUM_ESPRESSO_INSTALL_LOC/q-e-$QUANTUM_ESPRESSO_VERSION"
+    cd "$quantum_espresso_path"
     ./configure
 # show progress of configure and write log
 ) 2> "$execution_dir/logs/quantum_espresso_configure.log" | pv -pterb --size 5559 > "$execution_dir/logs/2-quantum_espresso_configure.log"
@@ -92,15 +93,15 @@ echo "Configuring $QUANTUM_ESPRESSO_VERSION..."
 # `cd` into that extracted folder and execute `make all`
 echo "Making all of $QUANTUM_ESPRESSO_VERSION..."
 (set -x;
-    cd "$QUANTUM_ESPRESSO_INSTALL_LOC/q-e-$QUANTUM_ESPRESSO_VERSION"
+    cd "$quantum_espresso_path"
     make all
 # show progress of make and write log
 ) 2> "$execution_dir/logs/quantum_espresso_make.log" | pv -pterb --size 702733 > "$execution_dir/logs/3-quantum_espresso_make.log"
 
 # set `pw.x` as environment variable; change PATH as needed to QE `/bin/` folder
 echo "Setting 'pw.x' as environment variable..."
-echo "export PATH=\"$QUANTUM_ESPRESSO_INSTALL_LOC/q-e-$QUANTUM_ESPRESSO_VERSION/bin:\$PATH\"" >> ~/.bashrc
-export PATH="$QUANTUM_ESPRESSO_INSTALL_LOC/q-e-$QUANTUM_ESPRESSO_VERSION/bin:$PATH"
+echo "export PATH=\"$quantum_espresso_path/bin:\$PATH\"" >> ~/.bashrc
+export PATH="$quantum_espresso_path/bin:$PATH"
 # update environment variables for user
 echo "Updating environment variables for $who..."
 (set -x; source ~/.bashrc)
