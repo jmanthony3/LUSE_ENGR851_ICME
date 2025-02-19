@@ -4,9 +4,9 @@
 
 #################### INSTALLATION VARIABLES ###################
 # define install path for Quantum Espresso (QE)
-QUANTUM_ESPRESSO_INSTALL_LOC=~/QuantumEspresso
+QUANTUM_ESPRESSO_INSTALL_LOC=~/QuantumEspresso731
 # encode name and version of tarball: qe-X.X.X
-QUANTUM_ESPRESSO_VERSION="qe-6.0.0"
+QUANTUM_ESPRESSO_VERSION="qe-7.3.1"
 # working language to perform calculations and plot results
 COMPUTING_LANGUAGE="Julia" # can also be "Python"
 # number of processors to use in test case
@@ -100,7 +100,7 @@ echo "Making all of $QUANTUM_ESPRESSO_VERSION..."
 # set `pw.x` as environment variable; change PATH as needed to QE `/bin/` folder
 echo "Setting 'pw.x' as environment variable..."
 echo "export PATH=\"$QUANTUM_ESPRESSO_INSTALL_LOC/q-e-$QUANTUM_ESPRESSO_VERSION/bin:\$PATH\"" >> ~/.bashrc
-
+export PATH="$QUANTUM_ESPRESSO_INSTALL_LOC/q-e-$QUANTUM_ESPRESSO_VERSION/bin:$PATH"
 # update environment variables for user
 echo "Updating environment variables for $who..."
 (set -x; source ~/.bashrc)
@@ -116,6 +116,7 @@ if [[ "$computing_language" == "julia" ]]; then
     sudo apt-get -y install curl
     (set -x; curl -fsSL https://install.julialang.org | sh -s -- -y)
     echo "Updating environment variables for $who..."
+    export PATH="/home/$who/.juliaup/bin:$PATH"
     (set -x; source ~/.bashrc)
     echo "Adding necessary packages..."
     (set -x; julia "packages.jl")
@@ -213,5 +214,5 @@ cp "rescale_commands.sh" "../Calculations/0-Scripts/"
 
 
 
-echo "Bridge (1) installed!"
+echo "Bridge (1) installed! Be sure to run 'source ~/.bashrc' to access the latest variables."
 # that's all folks
