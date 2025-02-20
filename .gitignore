@@ -77,3 +77,4 @@
 # dirs/file to ignore
 .vscode/
 logs/
+*
