@@ -1,3 +1,8 @@
+# dirs/file to ignore
+.vscode/
+logs/
+*
+
 # do NOT ignore the following
 !docs/
 !clean.sh
@@ -73,8 +78,3 @@
 !3-DislocationMobilityToCrystalPlasticity/Files/texture.txti
 !3-DislocationMobilityToCrystalPlasticity/Files/umat_xtal.f
 !3-DislocationMobilityToCrystalPlasticity/setup.sh
-
-# dirs/file to ignore
-.vscode/
-logs/
-*
