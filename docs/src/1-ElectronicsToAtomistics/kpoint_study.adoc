@@ -1,0 +1,4 @@
+= K-Point Study
+A similar process as that performed for mesh refinement studies must also be performed to determine the appropriate cutoff energy and number of k-points for QE calculations.
+This process must be performed for each pseudopotential file.
+Navigate into `~/1-ElectronicsToAtomistics/Calculations/2-KPointStudy` and execute the contained script: `./kpoint_study.sh`.

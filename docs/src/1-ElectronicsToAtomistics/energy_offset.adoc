@@ -1,0 +1,2 @@
+Because every pseudopotential file uses different approximation schemes and methods, a calibrating calculation must be performed to ascertain the energy offset with respect to the embedding energy within an electron cloud.
+Navigate into `~/1-ElectronicsToAtomistics/Calculations/1-EnergyOffset` and execute the contained script: `./energy_offset.sh`.

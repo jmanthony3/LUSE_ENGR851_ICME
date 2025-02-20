@@ -1,0 +1,151 @@
+// document metadata
+= Integrated Computational Materials Engineering
+Joby M. Anthony III <jmanthony1@liberty.edu>
+:affiliation: Ph. D. Candidate
+:document_version: 2.0
+:revdate: February 20, 2025
+:description: Scripts necessary to bridge certain length scales of Integrated Computational Materials Engineering design process.
+// :keywords: 
+:imagesdir: {docdir}/images
+:bibtex-file: references.bib
+:toc: auto
+:xrefstyle: short
+:sectnums: |,all|
+:chapter-refsig: Chap.
+:section-refsig: Sec.
+:stem: latexmath
+:eqnums: AMS
+// :stylesdir: {docdir}
+// :stylesheet: asme.css
+// :noheader:
+// :nofooter:
+// :docinfodir: {docdir}
+// :docinfo: private
+:front-matter: any
+:!last-update-label:
+
+// example variable
+// :fn-1: footnote:[]
+// end document metadata
+
+
+
+
+
+// begin document
+[abstract]
+.Abstract
+
+asdf
+
+// *Keywords:* _{keywords}_
+
+
+
+[#sec-setup, {counter:secs}]
+== Setup
+:!subs:
+:!figs:
+:!tabs:
+
+If host machine is Debian-based distro, then skip ahead to....
+Otherwise, if Windows 10/11, then either setup WSL or setup a https://www.vmware.com/products/workstation-player/workstation-player-evaluation.html[virtual (guest) machine] (VMware Workstation 16 Player) with an https://ubuntu.com/download/desktop[Ubuntu Desktop] or use https://docs.microsoft.com/en-us/windows/wsl/install[Windows Subsystem for Linux].
+Afterward, clone this repository `git clone https://github.com/jmanthony3/ICME.git` wherever desired inside the Linux distribution.
+
+If setting up WSL, then make sure that both "Virtual Machine Platform" and "Windows Subsystem for Linux" are checked.
+After restarting the machine, execute `wsl --install -d Ubuntu` from a command terminal.
+
+
+
+[#sec-electrons_to_atoms, {counter:secs}]
+== Bridging Electronics to Atomistics
+:!subs:
+:!figs:
+:!tabs:
+
+Go link:./1-ElectronicsToAtomistics/index.adoc[here] for the concepts associated with this bridge.
+
+Using some Quantum Espresso flavor of choice, get the tarball of the desired https://github.com/QEF/q-e/releases[flavor] and put into `~/1-ElectronicsToAtomistics/Files/`.
+To install the Quantum Espresso environment, navigate to the directory of and execute the `~/1-ElectronicsToAtomistics/setup.sh` bash script.
+Regardless of existing packages on guest machine, this script will make the desired flavor of Quantum Espresso; update the `$PATH` environment variable; install the `cmake`, `gcc`, `gfortran`, and `make` capabilities; install Python 2; and, perform tests to demonstrate (hopeful) success of installing environment and executing scripts.
+
+Visit any of the following for a pseudopotential file of choice:
+
+. https://pseudopotentiallibrary.org
+. http://www.physics.rutgers.edu/gbrv/#Fe
+. https://www.materialscloud.org/discover/sssp/table/efficiency
+. https://www.materialscloud.org/discover/sssp/table/precision
+
+Place the desired pseudopotential file into `~/1-ElectronicsToAtomistics/Calculations/`: all scripts contained herein reference this pseudopotential file.
+
+. https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm200[Input description]
+// . https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html[`EvA_EvV_plot.py`]
+// . https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html[`Convergence_plots.py`]
+// . https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html[`EOS_plot.py`]
+// . https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html[`EOS_comp_plot.py`]
+// . https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html[`Ecut_conv.py`]
+
+[#sec-electrons-energy_offset, {counter:subs}]
+=== Energy Offset
+Because every pseudopotential file uses different approximation schemes and methods, a calibrating calculation must be performed to ascertain the energy offset with respect to the embedding energy within an electron cloud.
+Navigate into `~/1-ElectronicsToAtomistics/Calculations/1-EnergyOffset` and execute the contained script: `./energy_offset.sh`.
+
+
+[#sec-electrons-kpoints, {counter:subs}]
+=== K-Point Study
+A similar process as that performed for mesh refinement studies must also be performed to determine the appropriate cutoff energy and number of k-points for QE calculations.
+This process must be performed for each pseudopotential file.
+Navigate into `~/1-ElectronicsToAtomistics/Calculations/2-KPointStudy` and execute the contained script: `./kpoint_study.sh`.
+
+
+[#sec-electrons-gsfe, {counter:subs}]
+=== GSFE Curve
+After determining which cutoff energy and number of k-points, navigate into `~/1-ElectronicsToAtomistics/Calculations/3-GSFE` and execute the script: `./gsfe_create.sh`.
+Upload to Rescale the contents of the `RescaleUpload` folder.
+If not existing already, create a `RescaleDownload` folder.
+Download the Rescale results into the `RescaleDownload` folder.
+Execute `./gsfe_process.sh`.
+The output `GSFE_SUMMARY-Calibration` file contains the target data for the MPCv4 calibration tool for the GSFE curve of the desired chemical system.
+
+https://icme.hpc.msstate.edu/mediawiki/index.php/Category:Electronic_Scale.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/Evfit.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/Ev_curve.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/Calculation_of_elastic_constants.html#The_Script
+https://icme.hpc.msstate.edu/mediawiki/index.php/Surface_formation_energy_calculation_for_fcc_(111),_(110)_and_(100).html
+https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/Gsfe_curve.html
+https://icme.hpc.msstate.edu/mediawiki/index.php/MPC.html#Build_LAMMPS.2BMEAM_for_MPCv4_on_Linux_with_MATLAB_R2017b_and_gcc-4.9.3
+https://www.youtube.com/watch?v=1YTUQm7xY60
+https://www.youtube.com/watch?v=4hgEv8C_KOw
+
+
+[#sec-dislocation_mobility, {counter:secs}]
+== Bridging Atomistics to Dislocation Mobility
+:!subs:
+:!figs:
+:!tabs:
+
+https://www.ovito.org/linux-downloads/
+https://gist.github.com/sakethramanujam/faf5b677b6505437dbdd82170ac55322
+
+
+
+// [appendix#sec-appendix-Figures]
+// == Figures
+
+
+
+[bibliography]
+== References
+bibliography::[]
+// end document
+
+
+
+
+
+// that's all folks 
