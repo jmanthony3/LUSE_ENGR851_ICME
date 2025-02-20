@@ -1,7 +1,6 @@
 # dirs/file to ignore
 .vscode/
 logs/
-*
 
 # do NOT ignore the following
 !docs/
