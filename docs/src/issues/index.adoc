@@ -1,0 +1,3 @@
+= Common Issues
+== Ubuntu Compatibility
+include::./ubuntu_versions.adoc[]

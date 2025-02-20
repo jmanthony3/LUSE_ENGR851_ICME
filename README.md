@@ -13,27 +13,3 @@ By default, the repository-level `setup.sh` (next to this README), executes the 
 To modify the installation of each bridge, then modify the appropriate user-defined variables and either execute the repository-level `setup.sh` or run the bridge-level `setup.sh` as desired.
 
 See the 
-
-## Ubuntu and Quantum Espresso Version Compatibility Testing
-Given that this repository was written some time ago and using an old version of Quantum Espresso...
-For some reason, Ubuntu 22.04 refuses to update environment variables by `source ~/.bashrc` and instead uses Quantum Espresso v6.7 which is from the `apt-get` repository.
-
-### 18.04
-- 6.0.0: v
-- 6.7.1: -
-- 7.3.1: x
-
-### 20.04
-- 6.0.0: v
-- 6.7.1: -
-- 7.3.1: v
-
-### 22.04
-- 6.0.0: -
-- 6.7.1: v
-- 7.3.1: -
-
-### 24.04
-- 6.0.0: -
-- 6.7.1: x
-- 7.3.1: -
