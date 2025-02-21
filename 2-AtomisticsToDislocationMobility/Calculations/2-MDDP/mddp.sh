@@ -7,7 +7,7 @@
 REFERENCE_STRUCTURE="bcc" # crystal structure
 ELEMENT_NAME="Fe" # Periodic Table identifier of element
 # working language to perform calculations and plot results
-COMPUTING_LANGUAGE="Julia" # can also be "Python"
+COMPUTING_LANGUAGE="Julia" # (recommended); can also be "Python"
 RESUME_PREVIOUS=1 # 0: start fresh; 1: resume from previous run
 
 

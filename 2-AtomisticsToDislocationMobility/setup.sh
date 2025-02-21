@@ -8,7 +8,7 @@ OVITO_INSTALL_LOC=~/Ovito
 # encode name and version of tarball
 OVITO_VERSION="ovito-basic-3.7.2-x86_64"
 # working language to perform calculations and plot results
-COMPUTING_LANGUAGE="Julia" # can also be "Python"
+COMPUTING_LANGUAGE="Julia" # (recommended); can also be "Python"
 
 
 

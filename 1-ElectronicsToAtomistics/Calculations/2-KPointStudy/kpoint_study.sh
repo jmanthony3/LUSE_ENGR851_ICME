@@ -21,7 +21,7 @@ declare -a CUTOFF_ENERGIES=($(seq 30 15 120)) # [Ry]
 # define according to: seq FIRST STEP LAST
 declare -a KPOINTS=($(seq 1 1 12)) # k-points for convergence
 # working language to perform calculations and plot results
-COMPUTING_LANGUAGE="Julia" # can also be "Python"
+COMPUTING_LANGUAGE="Julia" # (recommended); can also be "Python"
 NUM_PROC=$(nproc)   # grabs all cores available by default
 UNDER_PROC=2        # number of cores to under-subscribe, if possible
 

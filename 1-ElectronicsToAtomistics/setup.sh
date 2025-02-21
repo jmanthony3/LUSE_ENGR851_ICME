@@ -8,7 +8,7 @@ QUANTUM_ESPRESSO_INSTALL_LOC=~/QuantumEspresso
 # encode name and version of tarball: qe-X.X.X
 QUANTUM_ESPRESSO_VERSION="qe-6.0.0"
 # working language to perform calculations and plot results
-COMPUTING_LANGUAGE="Julia" # can also be "Python"
+COMPUTING_LANGUAGE="Julia" # (recommended); can also be "Python"
 # number of processors to use in test case
 NUM_PROC=$(nproc)   # grabs all cores available by default
 UNDER_PROC=2        # number of cores to under-subscribe, if possible
