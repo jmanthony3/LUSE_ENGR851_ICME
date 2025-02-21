@@ -157,9 +157,25 @@ else
     exit
 fi
 
+if [[ "$computing_language" == "julia" ]]; then
+    # modify `OutputFileCreator` script
+    sed -i "0,/^num_proc = \([[:digit:]]+\|Threads\.nthreads()\)[^ #]/s//num_proc = 16/" \
+        "../0-Scripts/OutputFileCreator.$cl_ext"
+
+    # modify `OutputFileSummarizer` script
+    sed -i "0,/^num_proc = \([[:digit:]]+\|Threads\.nthreads()\)[^ #]/s//num_proc = 16/" \
+        "../0-Scripts/OutputFileSummarizer.$cl_ext"
+elif [[ "$computing_language" == "python" ]]; then
+    echo
+else
+    echo "Variable COMPUTING_LANGUAGE=$COMPUTING_LANGUAGE \
+        not understood. Must be either 'Julia' or 'Python'."
+    exit
+fi
+
 # modify `OutputFileCreator` script
-sed -i "s%^num_proc = [[:digit:]]*[^ #]%num_proc = 16%" \
-    "../0-Scripts/OutputFileCreator.$cl_ext"
+# sed -i "s%^num_proc = [[:digit:]]*[^ #]%num_proc = 16%" \
+#     "../0-Scripts/OutputFileCreator.$cl_ext"
 sed -i "s%^el = '[[:print:]]*'[^ #]%el = '$ELEMENT_NAME'%" \
     "../0-Scripts/OutputFileCreator.$cl_ext"
 sed -i "s%^potential = '[[:print:]]*'[^ #]%potential = '$PSEUDOPOTENTIAL_FILENAME'%" \
@@ -176,8 +192,8 @@ sed -i "s%f.write(\"mixing_beta = [[:digit:]]*\.*[[:digit:]]*, conv_thr = 0.0000
     "../0-Scripts/OutputFileCreator.$cl_ext"
 
 # modify `OutputFileSummarizer` script
-sed -i "s%^num_proc = [[:digit:]]*[^ #]%num_proc = 16%" \
-    "../0-Scripts/OutputFileSummarizer.$cl_ext"
+# sed -i "s%^num_proc = [[:digit:]]*[^ #]%num_proc = 16%" \
+#     "../0-Scripts/OutputFileSummarizer.$cl_ext"
 sed -i "s%^el = '[[:print:]]*'[^ #]%el = '$ELEMENT_NAME'%" \
     "../0-Scripts/OutputFileSummarizer.$cl_ext"
 sed -i "s%^potential = '[[:print:]]*'[^ #]%potential = '$PSEUDOPOTENTIAL_FILENAME'%" \
