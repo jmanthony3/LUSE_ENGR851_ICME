@@ -5,7 +5,7 @@ Joby M. Anthony III <jmanthony1@liberty.edu>
 :document_version: 2.0
 :revdate: February 20, 2025
 :description: Scripts necessary to bridge certain length scales of Integrated Computational Materials Engineering design process.
-// :keywords: 
+:keywords: multi-scale modeling, shell scripting, WSL, Python, Julia, parallel processing
 :imagesdir: {docdir}/images
 :bibtex-file: references.bib
 :toc: auto
@@ -35,15 +35,20 @@ Joby M. Anthony III <jmanthony1@liberty.edu>
 // begin document
 [abstract]
 .Abstract
+Instructions to install Linux codes for Liberty University School of Engineering course ENGR 851: Integrated Computational Materials Engineering.
+If host operating system is Windows, then use the Windows Subsystem for Linux (WSL) to install Ubuntu 20.04.
+[.underline]#This does not currently install the MATLAB tools MPCv4 nor DMGfit.#
+The folders `1-ElectronicsToAtomistics`, `2-AtomisticsToDislocationMobility`, and `3-DislocationMobilityToCrystalPlasticity` each represent the first three bridges from lower length scales up to the continuum length scale and have similar, local file structures for homogeneous navigation at the Linux terminal.
+The `setup.sh` script under each bridge has, at the top, user-defined variables to control the installation of codes and scripts and build the infrastructure to work at those length scales.
+By default, the repository-level `setup.sh` (next to the README), executes each bridge-level `setup.sh` script with the user-defined variables at the top of those scripts.
+To modify the installation of each bridge, then modify the appropriate user-defined variables and either run the bridge-level `setup.sh` as desired or execute the repository-level `setup.sh`.
 
-asdf
-
-// *Keywords:* _{keywords}_
+*Keywords:* _{keywords}_
 
 
 
-[#sec-setup, {counter:secs}]
-== Setup
+[#sec-install, {counter:secs}]
+== Installation
 :!subs:
 :!figs:
 :!tabs:
@@ -57,80 +62,94 @@ After restarting the machine, execute `wsl --install -d Ubuntu` from a command t
 
 
 
-[#sec-electrons_to_atoms, {counter:secs}]
-== Bridging Electronics to Atomistics
+[#sec-bridges, {counter:secs}]
+== Length-Scale Bridges
+Each of the bridges has a `./setup.sh` script for installing the code infrastructure necessary to build that ICME bridge.
+The following sections describe the user-defined variables for their own `setup.sh` script.
+By default, the repository-level `~/.setup.sh` will execute the `setup.sh` script of each bridge with the currently defined user-defined variables.
+The most important variable belongs to bridges (1) and (2): `COMPUTING_LANGUAGE`.
+By default, `COMPUTING_LANGUAGE="Julia"` will install the latest version of https://julialang.org[Julia] and the appropriate packages.
+Most calculations are controlled from Linux bash scripts, but some auxiliary calculations and plots are performed and created by Python or Julia scripts.
+
+As mentioned previously, each bridge will contain homogeneous file structures for intuitive navigation from the command line.
+Each bridge contains two primary folders: `~/<bridge>/Files/` and `~/<bridge>/Calculations/`.
+Any file necessary to install the infrastructure for a bridge is placed into the `~/<bridge>/Files/` folder.
+The `~/<bridge>/Calculations/` folder contains all the work for building that bridge.
+The scripts necessary to build this bridge are copied from the `~/<bridge>/Files/` folder into the `~/<bridge>/Calculations/0-Scripts/` folder: this allows for user edits for individual calculations and preserves an original for reference.
+Each `~/<bridge>/Calculation/` folder contains a `/0-Scripts/` folder for the scripts pertinent to that bridge for calculating locally or uploading to Rescale.
+
+
+[#sec-bridge-electrons_to_atoms, {counter:sec-sub}]
+=== Bridging Electronics to Atomistics
 :!subs:
 :!figs:
 :!tabs:
 
-Go link:./1-ElectronicsToAtomistics/index.adoc[here] for the concepts associated with this bridge.
+Go link:src/1-ElectronicsToAtomistics/index.html[here] for building this bridge.
+The following snippet shows the default values for the user-defined variables that controls the install.
 
-Using some Quantum Espresso flavor of choice, get the tarball of the desired https://github.com/QEF/q-e/releases[flavor] and put into `~/1-ElectronicsToAtomistics/Files/`.
+[source, bash]
+----
+include::./../1-ElectronicsToAtomistics/setup.sh[lines=1..22]
+----
+
+To use some version of Quantum Espresso, get the tarball of the desired https://github.com/QEF/q-e/releases[flavor] and put into `~/1-ElectronicsToAtomistics/Files/`.
+In the `setup.sh` script, `QUANTUM_ESPRESSO_INSTALL_LOC` and `QUANTUM_ESPRESSO_VERSION` specifies the install directory and version, respectively.
+[IMPORTANT]
+====
+`QUANTUM_ESPRESSO_VERSION` must be a string that is the full name of the tarball of choice minus the `.tar.gz` extension.
+For example, Quantum Espresso v6.0.0 is installed from the `qe-6.0.0.tar.gz` tarball and specified by `QUANTUM_ESPRESSO_VERSION="qe-6.0.0"`.
+====
+Some later scripts can leverage multiple threads for parallel processing; therefore, the `NUM_PROCS` variable will, by default, grab all the available threads on the machine (recommended).
+The `UNDER_PROC` variable was inspired the work of Reid Prichard for under-subscription in parallel environments cite:[prichardNOVELHPCSCALING2022].
+Whether this variable is actually needed has yet to be determined.
+
 To install the Quantum Espresso environment, navigate to the directory of and execute the `~/1-ElectronicsToAtomistics/setup.sh` bash script.
-Regardless of existing packages on guest machine, this script will make the desired flavor of Quantum Espresso; update the `$PATH` environment variable; install the `cmake`, `gcc`, `gfortran`, and `make` capabilities; install Python 2; and, perform tests to demonstrate (hopeful) success of installing environment and executing scripts.
+Regardless of existing packages on guest machine, this script will `./configure` and `make` the desired flavor of Quantum Espresso; update the `$PATH` environment variable; and, perform tests to, hopefully, demonstrate success of installing the Linux environment and the ability to execute scripts.
+These tests also depend on whether `COMPUTING_LANGUAGE` is set to `"Julia"` (recommended) or `"Python"`.
 
-Visit any of the following for a pseudopotential file of choice:
-
-. https://pseudopotentiallibrary.org
-. http://www.physics.rutgers.edu/gbrv/#Fe
-. https://www.materialscloud.org/discover/sssp/table/efficiency
-. https://www.materialscloud.org/discover/sssp/table/precision
-
-Place the desired pseudopotential file into `~/1-ElectronicsToAtomistics/Calculations/`: all scripts contained herein reference this pseudopotential file.
-
-. https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm200[Input description]
+// . https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm200[Input description]
 // . https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html[`EvA_EvV_plot.py`]
 // . https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html[`Convergence_plots.py`]
 // . https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html[`EOS_plot.py`]
 // . https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html[`EOS_comp_plot.py`]
 // . https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html[`Ecut_conv.py`]
 
-[#sec-electrons-energy_offset, {counter:subs}]
-=== Energy Offset
-Because every pseudopotential file uses different approximation schemes and methods, a calibrating calculation must be performed to ascertain the energy offset with respect to the embedding energy within an electron cloud.
-Navigate into `~/1-ElectronicsToAtomistics/Calculations/1-EnergyOffset` and execute the contained script: `./energy_offset.sh`.
 
 
-[#sec-electrons-kpoints, {counter:subs}]
-=== K-Point Study
-A similar process as that performed for mesh refinement studies must also be performed to determine the appropriate cutoff energy and number of k-points for QE calculations.
-This process must be performed for each pseudopotential file.
-Navigate into `~/1-ElectronicsToAtomistics/Calculations/2-KPointStudy` and execute the contained script: `./kpoint_study.sh`.
 
-
-[#sec-electrons-gsfe, {counter:subs}]
-=== GSFE Curve
-After determining which cutoff energy and number of k-points, navigate into `~/1-ElectronicsToAtomistics/Calculations/3-GSFE` and execute the script: `./gsfe_create.sh`.
-Upload to Rescale the contents of the `RescaleUpload` folder.
-If not existing already, create a `RescaleDownload` folder.
-Download the Rescale results into the `RescaleDownload` folder.
-Execute `./gsfe_process.sh`.
-The output `GSFE_SUMMARY-Calibration` file contains the target data for the MPCv4 calibration tool for the GSFE curve of the desired chemical system.
-
-https://icme.hpc.msstate.edu/mediawiki/index.php/Category:Electronic_Scale.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Evfit.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Ev_curve.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Calculation_of_elastic_constants.html#The_Script
-https://icme.hpc.msstate.edu/mediawiki/index.php/Surface_formation_energy_calculation_for_fcc_(111),_(110)_and_(100).html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Gsfe_curve.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/MPC.html#Build_LAMMPS.2BMEAM_for_MPCv4_on_Linux_with_MATLAB_R2017b_and_gcc-4.9.3
-https://www.youtube.com/watch?v=1YTUQm7xY60
-https://www.youtube.com/watch?v=4hgEv8C_KOw
-
-
-[#sec-dislocation_mobility, {counter:secs}]
-== Bridging Atomistics to Dislocation Mobility
+[#sec-bridge-dislocation_mobility, {counter:sec-sub}]
+=== Bridging Atomistics to Dislocation Mobility
 :!subs:
 :!figs:
 :!tabs:
 
-https://www.ovito.org/linux-downloads/
-https://gist.github.com/sakethramanujam/faf5b677b6505437dbdd82170ac55322
+// https://www.ovito.org/linux-downloads/
+// https://gist.github.com/sakethramanujam/faf5b677b6505437dbdd82170ac55322
+
+Go link:src/2-AtomisticsToDislocationMobility/index.html[here] for building this bridge.
+The following snippet shows the default values for the user-defined variables that controls the install.
+
+[source, bash]
+----
+include::./../2-AtomisticsToDislocationMobility/setup.sh[lines=1..24]
+----
+
+
+
+[#sec-bridge-crystal_plasticity, {counter:sec-sub}]
+=== Bridging Dislocation Mobility to Crystal Plasticity
+:!subs:
+:!figs:
+:!tabs:
+
+Go link:src/3-DislocationMobilityToCrystalPlasticity/index.html[here] for building this bridge.
+The following snippet shows the default values for the user-defined variables that controls the install.
+
+[source, bash]
+----
+include::./../3-DislocationMobilityToCrystalPlasticity/setup.sh[lines=1..14]
+----
 
 
 

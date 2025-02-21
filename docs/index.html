@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.22">
 <meta name="description" content="Scripts necessary to bridge certain length scales of Integrated Computational Materials Engineering design process.">
+<meta name="keywords" content="multi-scale modeling, shell scripting, WSL, Python, Julia, parallel processing">
 <meta name="author" content="Joby M. Anthony III &lt;jmanthony1@liberty.edu&gt;">
 <title>Integrated Computational Materials Engineering</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
@@ -446,15 +447,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#sec-setup">1. Setup</a></li>
-<li><a href="#sec-electrons_to_atoms">2. Bridging Electronics to Atomistics</a>
+<li><a href="#sec-install">1. Installation</a></li>
+<li><a href="#sec-bridges">2. Length-Scale Bridges</a>
 <ul class="sectlevel2">
-<li><a href="#sec-electrons-energy_offset">2.1. Energy Offset</a></li>
-<li><a href="#sec-electrons-kpoints">2.2. K-Point Study</a></li>
-<li><a href="#sec-electrons-gsfe">2.3. GSFE Curve</a></li>
+<li><a href="#sec-bridge-electrons_to_atoms">2.1. Bridging Electronics to Atomistics</a></li>
+<li><a href="#sec-bridge-dislocation_mobility">2.2. Bridging Atomistics to Dislocation Mobility</a></li>
+<li><a href="#sec-bridge-crystal_plasticity">2.3. Bridging Dislocation Mobility to Crystal Plasticity</a></li>
 </ul>
 </li>
-<li><a href="#sec-dislocation_mobility">3. Bridging Atomistics to Dislocation Mobility</a></li>
 <li><a href="#_references">References</a></li>
 </ul>
 </div>
@@ -465,13 +465,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="quoteblock abstract">
 <div class="title">Abstract</div>
 <blockquote>
-asdf
+Instructions to install Linux codes for Liberty University School of Engineering course ENGR 851: Integrated Computational Materials Engineering.
+If host operating system is Windows, then use the Windows Subsystem for Linux (WSL) to install Ubuntu 20.04.
+<span class="underline">This does not currently install the MATLAB tools MPCv4 nor DMGfit.</span>
+The folders <code>1-ElectronicsToAtomistics</code>, <code>2-AtomisticsToDislocationMobility</code>, and <code>3-DislocationMobilityToCrystalPlasticity</code> each represent the first three bridges from lower length scales up to the continuum length scale and have similar, local file structures for homogeneous navigation at the Linux terminal.
+The <code>setup.sh</code> script under each bridge has, at the top, user-defined variables to control the installation of codes and scripts and build the infrastructure to work at those length scales.
+By default, the repository-level <code>setup.sh</code> (next to the README), executes each bridge-level <code>setup.sh</code> script with the user-defined variables at the top of those scripts.
+To modify the installation of each bridge, then modify the appropriate user-defined variables and either run the bridge-level <code>setup.sh</code> as desired or execute the repository-level <code>setup.sh</code>.
 </blockquote>
+</div>
+<div class="paragraph">
+<p><strong>Keywords:</strong> <em>multi-scale modeling, shell scripting, WSL, Python, Julia, parallel processing</em></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="sec-setup">1. Setup</h2>
+<h2 id="sec-install">1. Installation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If host machine is Debian-based distro, then skip ahead to&#8230;&#8203;.
@@ -485,95 +494,145 @@ After restarting the machine, execute <code>wsl --install -d Ubuntu</code> from 
 </div>
 </div>
 <div class="sect1">
-<h2 id="sec-electrons_to_atoms">2. Bridging Electronics to Atomistics</h2>
+<h2 id="sec-bridges">2. Length-Scale Bridges</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Go <a href="./1-ElectronicsToAtomistics/index.adoc">here</a> for the concepts associated with this bridge.</p>
+<p>Each of the bridges has a <code>./setup.sh</code> script for installing the code infrastructure necessary to build that ICME bridge.
+The following sections describe the user-defined variables for their own <code>setup.sh</code> script.
+By default, the repository-level <code>~/.setup.sh</code> will execute the <code>setup.sh</code> script of each bridge with the currently defined user-defined variables.
+The most important variable belongs to bridges (1) and (2): <code>COMPUTING_LANGUAGE</code>.
+By default, <code>COMPUTING_LANGUAGE="Julia"</code> will install the latest version of <a href="https://julialang.org">Julia</a> and the appropriate packages.
+Most calculations are controlled from Linux bash scripts, but some auxiliary calculations and plots are performed and created by Python or Julia scripts.</p>
 </div>
 <div class="paragraph">
-<p>Using some Quantum Espresso flavor of choice, get the tarball of the desired <a href="https://github.com/QEF/q-e/releases">flavor</a> and put into <code>~/1-ElectronicsToAtomistics/Files/</code>.
-To install the Quantum Espresso environment, navigate to the directory of and execute the <code>~/1-ElectronicsToAtomistics/setup.sh</code> bash script.
-Regardless of existing packages on guest machine, this script will make the desired flavor of Quantum Espresso; update the <code>$PATH</code> environment variable; install the <code>cmake</code>, <code>gcc</code>, <code>gfortran</code>, and <code>make</code> capabilities; install Python 2; and, perform tests to demonstrate (hopeful) success of installing environment and executing scripts.</p>
-</div>
-<div class="paragraph">
-<p>Visit any of the following for a pseudopotential file of choice:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="https://pseudopotentiallibrary.org" class="bare">https://pseudopotentiallibrary.org</a></p>
-</li>
-<li>
-<p><a href="http://www.physics.rutgers.edu/gbrv/#Fe" class="bare">http://www.physics.rutgers.edu/gbrv/#Fe</a></p>
-</li>
-<li>
-<p><a href="https://www.materialscloud.org/discover/sssp/table/efficiency" class="bare">https://www.materialscloud.org/discover/sssp/table/efficiency</a></p>
-</li>
-<li>
-<p><a href="https://www.materialscloud.org/discover/sssp/table/precision" class="bare">https://www.materialscloud.org/discover/sssp/table/precision</a></p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Place the desired pseudopotential file into <code>~/1-ElectronicsToAtomistics/Calculations/</code>: all scripts contained herein reference this pseudopotential file.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm200">Input description</a></p>
-</li>
-</ol>
+<p>As mentioned previously, each bridge will contain homogeneous file structures for intuitive navigation from the command line.
+Each bridge contains two primary folders: <code>~/&lt;bridge&gt;/Files/</code> and <code>~/&lt;bridge&gt;/Calculations/</code>.
+Any file necessary to install the infrastructure for a bridge is placed into the <code>~/&lt;bridge&gt;/Files/</code> folder.
+The <code>~/&lt;bridge&gt;/Calculations/</code> folder contains all the work for building that bridge.
+The scripts necessary to build this bridge are copied from the <code>~/&lt;bridge&gt;/Files/</code> folder into the <code>~/&lt;bridge&gt;/Calculations/0-Scripts/</code> folder: this allows for user edits for individual calculations and preserves an original for reference.
+Each <code>~/&lt;bridge&gt;/Calculation/</code> folder contains a <code>/0-Scripts/</code> folder for the scripts pertinent to that bridge for calculating locally or uploading to Rescale.</p>
 </div>
 <div class="sect2">
-<h3 id="sec-electrons-energy_offset">2.1. Energy Offset</h3>
+<h3 id="sec-bridge-electrons_to_atoms">2.1. Bridging Electronics to Atomistics</h3>
 <div class="paragraph">
-<p>Because every pseudopotential file uses different approximation schemes and methods, a calibrating calculation must be performed to ascertain the energy offset with respect to the embedding energy within an electron cloud.
-Navigate into <code>~/1-ElectronicsToAtomistics/Calculations/1-EnergyOffset</code> and execute the contained script: <code>./energy_offset.sh</code>.</p>
+<p>Go <a href="src/1-ElectronicsToAtomistics/index.html">here</a> for building this bridge.
+The following snippet shows the default values for the user-defined variables that controls the install.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">#!/bin/bash -x
+
+
+
+#################### INSTALLATION VARIABLES ###################
+# define install path for Quantum Espresso (QE)
+QUANTUM_ESPRESSO_INSTALL_LOC=~/QuantumEspresso
+# encode name and version of tarball: qe-X.X.X
+QUANTUM_ESPRESSO_VERSION="qe-6.0.0"
+# working language to perform calculations and plot results
+COMPUTING_LANGUAGE="Julia" # (recommended); can also be "Python"
+# number of processors to use in test case
+NUM_PROC=$(nproc)   # grabs all cores available by default
+UNDER_PROC=2        # number of cores to under-subscribe, if possible
+
+
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - - - - - - END OF HUMAN EDITABLE SECTION - - - - - - - - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To use some version of Quantum Espresso, get the tarball of the desired <a href="https://github.com/QEF/q-e/releases">flavor</a> and put into <code>~/1-ElectronicsToAtomistics/Files/</code>.
+In the <code>setup.sh</code> script, <code>QUANTUM_ESPRESSO_INSTALL_LOC</code> and <code>QUANTUM_ESPRESSO_VERSION</code> specifies the install directory and version, respectively.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>QUANTUM_ESPRESSO_VERSION</code> must be a string that is the full name of the tarball of choice minus the <code>.tar.gz</code> extension.
+For example, Quantum Espresso v6.0.0 is installed from the <code>qe-6.0.0.tar.gz</code> tarball and specified by <code>QUANTUM_ESPRESSO_VERSION="qe-6.0.0"</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Some later scripts can leverage multiple threads for parallel processing; therefore, the <code>NUM_PROCS</code> variable will, by default, grab all the available threads on the machine (recommended).
+The <code>UNDER_PROC</code> variable was inspired the work of Reid Prichard for under-subscription in parallel environments cite:[prichardNOVELHPCSCALING2022].
+Whether this variable is actually needed has yet to be determined.</p>
+</div>
+<div class="paragraph">
+<p>To install the Quantum Espresso environment, navigate to the directory of and execute the <code>~/1-ElectronicsToAtomistics/setup.sh</code> bash script.
+Regardless of existing packages on guest machine, this script will <code>./configure</code> and <code>make</code> the desired flavor of Quantum Espresso; update the <code>$PATH</code> environment variable; and, perform tests to, hopefully, demonstrate success of installing the Linux environment and the ability to execute scripts.
+These tests also depend on whether <code>COMPUTING_LANGUAGE</code> is set to <code>"Julia"</code> (recommended) or <code>"Python"</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sec-electrons-kpoints">2.2. K-Point Study</h3>
+<h3 id="sec-bridge-dislocation_mobility">2.2. Bridging Atomistics to Dislocation Mobility</h3>
 <div class="paragraph">
-<p>A similar process as that performed for mesh refinement studies must also be performed to determine the appropriate cutoff energy and number of k-points for QE calculations.
-This process must be performed for each pseudopotential file.
-Navigate into <code>~/1-ElectronicsToAtomistics/Calculations/2-KPointStudy</code> and execute the contained script: <code>./kpoint_study.sh</code>.</p>
+<p>Go <a href="src/2-AtomisticsToDislocationMobility/index.html">here</a> for building this bridge.
+The following snippet shows the default values for the user-defined variables that controls the install.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">#!/bin/bash -x
+
+
+
+#################### INSTALLATION VARIABLES ###################
+# define install path for Ovito
+OVITO_INSTALL_LOC=~/Ovito
+# encode name and version of tarball
+OVITO_VERSION="ovito-basic-3.7.2-x86_64"
+# working language to perform calculations and plot results
+COMPUTING_LANGUAGE="Julia" # can also be "Python"
+
+
+
+####################### MEAM PARAMETERS #######################
+ELEMENT_NAME="Fe" # Periodic Table identifier of element
+
+
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - - - - - - END OF HUMAN EDITABLE SECTION - - - - - - - - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sec-electrons-gsfe">2.3. GSFE Curve</h3>
+<h3 id="sec-bridge-crystal_plasticity">2.3. Bridging Dislocation Mobility to Crystal Plasticity</h3>
 <div class="paragraph">
-<p>After determining which cutoff energy and number of k-points, navigate into <code>~/1-ElectronicsToAtomistics/Calculations/3-GSFE</code> and execute the script: <code>./gsfe_create.sh</code>.
-Upload to Rescale the contents of the <code>RescaleUpload</code> folder.
-If not existing already, create a <code>RescaleDownload</code> folder.
-Download the Rescale results into the <code>RescaleDownload</code> folder.
-Execute <code>./gsfe_process.sh</code>.
-The output <code>GSFE_SUMMARY-Calibration</code> file contains the target data for the MPCv4 calibration tool for the GSFE curve of the desired chemical system.</p>
+<p>Go <a href="src/3-DislocationMobilityToCrystalPlasticity/index.html">here</a> for building this bridge.
+The following snippet shows the default values for the user-defined variables that controls the install.</p>
 </div>
-<div class="paragraph">
-<p><a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Category:Electronic_Scale.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Category:Electronic_Scale.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Evfit.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Evfit.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Ev_curve.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Ev_curve.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Calculation_of_elastic_constants.html#The_Script" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Calculation_of_elastic_constants.html#The_Script</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Surface_formation_energy_calculation_for_fcc_(111" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Surface_formation_energy_calculation_for_fcc_(111</a>),<em>(110)_and</em>(100).html
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/Gsfe_curve.html" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/Gsfe_curve.html</a>
-<a href="https://icme.hpc.msstate.edu/mediawiki/index.php/MPC.html#Build_LAMMPS.2BMEAM_for_MPCv4_on_Linux_with_MATLAB_R2017b_and_gcc-4.9.3" class="bare">https://icme.hpc.msstate.edu/mediawiki/index.php/MPC.html#Build_LAMMPS.2BMEAM_for_MPCv4_on_Linux_with_MATLAB_R2017b_and_gcc-4.9.3</a>
-<a href="https://www.youtube.com/watch?v=1YTUQm7xY60" class="bare">https://www.youtube.com/watch?v=1YTUQm7xY60</a>
-<a href="https://www.youtube.com/watch?v=4hgEv8C_KOw" class="bare">https://www.youtube.com/watch?v=4hgEv8C_KOw</a></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">#!/bin/bash -x
+
+
+
+########################### `*.sx` ############################
+REFERENCE_STRUCTURE="bcc" # crystal structure
+
+
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - - - - - - END OF HUMAN EDITABLE SECTION - - - - - - - - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sec-dislocation_mobility">3. Bridging Atomistics to Dislocation Mobility</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="https://www.ovito.org/linux-downloads/" class="bare">https://www.ovito.org/linux-downloads/</a>
-<a href="https://gist.github.com/sakethramanujam/faf5b677b6505437dbdd82170ac55322" class="bare">https://gist.github.com/sakethramanujam/faf5b677b6505437dbdd82170ac55322</a></p>
 </div>
 </div>
 </div>

@@ -1,22 +1,39 @@
-= GSFE Curve
 After determining which cutoff energy and number of k-points, navigate into `~/1-ElectronicsToAtomistics/Calculations/3-GSFE` and execute the script: `./gsfe_create.sh`.
-Upload to Rescale the contents of the `RescaleUpload` folder.
-If not existing already, create a `RescaleDownload` folder.
-Download the Rescale results into the `RescaleDownload` folder.
-Execute `./gsfe_process.sh`.
-The output `GSFE_SUMMARY-Calibration` file contains the target data for the MPCv4 calibration tool for the GSFE curve of the desired chemical system.
+A preview is provided here:
 
-https://icme.hpc.msstate.edu/mediawiki/index.php/Category:Electronic_Scale.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Evfit.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Ev_curve.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Calculation_of_elastic_constants.html#The_Script
-https://icme.hpc.msstate.edu/mediawiki/index.php/Surface_formation_energy_calculation_for_fcc_(111),_(110)_and_(100).html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Gsfe_curve.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/MPC.html#Build_LAMMPS.2BMEAM_for_MPCv4_on_Linux_with_MATLAB_R2017b_and_gcc-4.9.3
-https://www.youtube.com/watch?v=1YTUQm7xY60
-https://www.youtube.com/watch?v=4hgEv8C_KOw
+[source, bash]
+----
+include::../../../1-ElectronicsToAtomistics/Calculations/3-GSFE/gsfe_create.sh[lines=1..60]
+----
+
+Some of the user-defined variable will look familiar to those from `./energy_offset.sh` and `./kpoint_study.sh`.
+A key difference is that the `CUTOFF_ENERGY` and `KPOINT` variables are single values not ranges as in the `./kpoint_study.sh`.
+The `ENERGY_OFFSET` here is also updated from the `./energy_offset.sh` to subtract background energy.
+However, a new variable is the `DISLOCATION_GRADE` for the Burger's vector direction of dislocation motion.
+This currently accepts `"full"` or `"partial"` for either FCC or BCC systems and `"longpartial"` for BCC systems.
+
+Like previous steps, this script will write the Quantum Espresso input script with the user-defined variables which includes the cutoff energy and number of k-points.
+`"evfit.f"` is compiled out to `./evfit` before calling `./ev_curve` to create the `EvsA` and `EvsV` summary files and `EvA_EvV_plot.<ext>` to plot the data.
+The `ENERGY_OFFSET` is applied to the `EvsA` and `EvsV` files.
+`OutputFileCreator.<ext>` is called to create a `RescaleUpload/` folder with `gsfe_<X>.in` files to run Quantum Espresso and construct the GSFE curve.
+If not existing already, create a `RescaleDownload/` folder.
+If on a single-core machine or are using Python, then upload to a Rescale job the contents of the `RescaleUpload/` folder as inputs.
+If multiple cores are available and computing language is Julia, then `cd` into the `RescaleUpload/` folder, adjust the number of processors to use, and execute the `./rescale_commands.sh` script.
+
+When the completed, put the results files into the `RescaleDownload/` folder and execute the `./gsfe_process.sh` script.
+This script calls the `OutputFileSummarizer.<ext>` helper script and skips calculations to output the `GSFE_SUMMARY-Calibration` file which contains the target data for the MPCv4 calibration tool for the GSFE curve of the desired chemical system.
+
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Category:Electronic_Scale.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Evfit.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Ev_curve.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Calculation_of_elastic_constants.html#The_Script
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Surface_formation_energy_calculation_for_fcc_(111),_(110)_and_(100).html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/Gsfe_curve.html
+// https://icme.hpc.msstate.edu/mediawiki/index.php/MPC.html#Build_LAMMPS.2BMEAM_for_MPCv4_on_Linux_with_MATLAB_R2017b_and_gcc-4.9.3
+// https://www.youtube.com/watch?v=1YTUQm7xY60
+// https://www.youtube.com/watch?v=4hgEv8C_KOw

@@ -1,2 +1,14 @@
 Because every pseudopotential file uses different approximation schemes and methods, a calibrating calculation must be performed to ascertain the energy offset with respect to the embedding energy within an electron cloud.
 Navigate into `~/1-ElectronicsToAtomistics/Calculations/1-EnergyOffset` and execute the contained script: `./energy_offset.sh`.
+A preview of this script is shown here:
+
+[source, bash]
+----
+include::../../../1-ElectronicsToAtomistics/Calculations/1-EnergyOffset/energy_offset.sh[lines=1..42]
+----
+
+This file will create an input file for Quantum Espresso according to the pseudopotential located at `~/1-ElectronicsToAtomistics/Calculations/<filename>.UPF` with the appropriate atomic mass, reference structure, initial guess lattice parameter, and some other variables to control the convergence criterion of Quantum Espresso.
+The familiar user-defined variables `COMPUTING_LANGUAGE`, `NUM_PROC`, and `UNDER_PROC` are also available here.
+This script multiplies the initial guess lattice parameter by 4 for a sufficiently large lattice spacing, writes the `<reference structure>.in` file for Quantum Espresso, compiles `"evfit.f"`, and calls `./ev_curve` and `EvA_EvV_plot.<ext>` in sequence.
+The `energy_offset` (in units of Rydberg?) is converted to eV, printed to the terminal, and updated in the appropriate scripts before compiling `"evfit"` and calling `/.ev_curve`.
+The values in the `EvsA`, `EvsV`, and `SUMMARY` files are offset (according to `energy_offset`) and converted to more understandable units: e.g. electron-volts or gigapascals.

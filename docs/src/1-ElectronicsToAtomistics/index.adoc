@@ -1,8 +1,43 @@
 = 1-ElectronicsToAtomistics
-Using some Quantum Espresso flavor of choice, get the tarball of the desired https://github.com/QEF/q-e/releases[flavor] and put into `~/1-ElectronicsToAtomistics/Files/`.
-To install the Quantum Espresso environment, navigate to the directory of and execute the `~/1-ElectronicsToAtomistics/setup.sh` bash script.
-Regardless of existing packages on guest machine, this script will make the desired flavor of Quantum Espresso; update the `$PATH` environment variable; install the `cmake`, `gcc`, `gfortran`, and `make` capabilities; install Python 2; and, perform tests to demonstrate (hopeful) success of installing environment and executing scripts.
+As mentioned previously, each bridge will contain homogeneous file structures for intuitive navigation from the command line.
 
+
+
+== Files
+.`./evfit.f`
+Fortran file for fitting a curve to the electron energy (units of eV) for varying lattice parameter (units of Angstrom) separation between electrons.
+This compiles out to `./evfit` which is, in turn, called by `./ev_curve`.
+
+.`./ev_curve`
+Accepts two positional arguments: reference structure, and initial guess for lattice parameter.
+For some range around the initial guess for lattice parameter, uses Quantum Espresso to calculate the electronic energy at the lattice parameter separation with other settings according to the associated `<reference structure>.ev.in` file.
+Will print to terminal and summary files the electronic energy for each lattice parameter (`EvsA`) and cell volume (`EvsV`) and the equilibrium electronic energy, lattice parameter, and bulk modulus.
+
+.`./EvA_EvV_plot.jl` / `./EvA_EvV_plot.py`
+Whether using the Julia or Python file, the output `EvsA` and `EvsV` files from `./ev_curve` are plotted for electronic energy against lattice parameter and cell volume, respectively.
+Creates a plot for each and a plot grid for comparison.
+Can use some offset value (assigned to `energy_offset`) to subtract the background energy associated with the electron cloud with a sufficiently large lattice parameter so that electronic energy is initially positive before becoming negative.
+
+.`./gsfe_curve.jl` / `./gsfe_curve.py`
+Calculates the generalized stacking fault energy (GSFE) curve according to three positional arguments: reference structure, lattice parameter, and slip direction.
+This was originally written in Python 2, but the Julia version of this script leverages parallel processing to calculate within a human lifetime.
+If on a single-core processor or using Python, then use `./OutputFileCreator.<ext>` to create the inputs necessary to submit a job on Rescale.
+
+.`./OutputFileCreator.jl` / .`./OutputFileCreator.py`
+Almost an exact copy of `./gsfe_curve.<ext>`, but skips the calculation step in lieu of writing the inputs to an external file: `gsfe_<X>.in`.
+Creates the number of input files according to the number of data points desired in the resulting GSFE curve.
+
+.`./OutputFileSummarizer.jl` / .`./OutputFileSummarizer.py`
+Almost an exact copy of `./gsfe_curve.<ext>`, but skips the calculation step in lieu of processing the `gsfe_<X>.out` files.
+
+.`./rescale_commands.sh`
+Command script that gets uploaded to Rescale to calculate all the `./gsfe_<X>.in` files.
+Note that the number of processors used in the `mpirun` call should be less than or equal to the number of cores of the Rescale job.
+
+
+
+== Calculations
+This length scale requires the use of pseudopotential files as input to Quantum Espresso to dictate how electronic energies are calculated.
 Visit any of the following for a pseudopotential file of choice:
 
 . https://pseudopotentiallibrary.org
@@ -12,45 +47,14 @@ Visit any of the following for a pseudopotential file of choice:
 
 Place the desired pseudopotential file into `~/1-ElectronicsToAtomistics/Calculations/`: all scripts contained herein reference this pseudopotential file.
 
-. https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm200[Input description]
-// . https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html[`EvA_EvV_plot.py`]
-// . https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html[`Convergence_plots.py`]
-// . https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html[`EOS_plot.py`]
-// . https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html[`EOS_comp_plot.py`]
-// . https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html[`Ecut_conv.py`]
 
-[#sec-electrons-energy_offset, {counter:subs}]
 === Energy Offset
 include::./energy_offset.adoc[]
 
 
-[#sec-electrons-kpoints, {counter:subs}]
 === K-Point Study
-A similar process as that performed for mesh refinement studies must also be performed to determine the appropriate cutoff energy and number of k-points for QE calculations.
-This process must be performed for each pseudopotential file.
-Navigate into `~/1-ElectronicsToAtomistics/Calculations/2-KPointStudy` and execute the contained script: `./kpoint_study.sh`.
+include::./kpoint_study.adoc[]
 
 
-[#sec-electrons-gsfe, {counter:subs}]
 === GSFE Curve
-After determining which cutoff energy and number of k-points, navigate into `~/1-ElectronicsToAtomistics/Calculations/3-GSFE` and execute the script: `./gsfe_create.sh`.
-Upload to Rescale the contents of the `RescaleUpload` folder.
-If not existing already, create a `RescaleDownload` folder.
-Download the Rescale results into the `RescaleDownload` folder.
-Execute `./gsfe_process.sh`.
-The output `GSFE_SUMMARY-Calibration` file contains the target data for the MPCv4 calibration tool for the GSFE curve of the desired chemical system.
-
-https://icme.hpc.msstate.edu/mediawiki/index.php/Category:Electronic_Scale.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Evfit.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Ev_curve.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Calculation_of_elastic_constants.html#The_Script
-https://icme.hpc.msstate.edu/mediawiki/index.php/Surface_formation_energy_calculation_for_fcc_(111),_(110)_and_(100).html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EvA_EvV_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Convergence_plots.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/EOS_comp_plot.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Ecut_conv.py.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/Gsfe_curve.html
-https://icme.hpc.msstate.edu/mediawiki/index.php/MPC.html#Build_LAMMPS.2BMEAM_for_MPCv4_on_Linux_with_MATLAB_R2017b_and_gcc-4.9.3
-https://www.youtube.com/watch?v=1YTUQm7xY60
-https://www.youtube.com/watch?v=4hgEv8C_KOw
+include::./gsfe_curve.adoc[]

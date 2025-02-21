@@ -1,4 +1,20 @@
-= K-Point Study
 A similar process as that performed for mesh refinement studies must also be performed to determine the appropriate cutoff energy and number of k-points for QE calculations.
 This process must be performed for each pseudopotential file.
 Navigate into `~/1-ElectronicsToAtomistics/Calculations/2-KPointStudy` and execute the contained script: `./kpoint_study.sh`.
+A preview of this script is shown here:
+
+[source, bash]
+----
+include::../../../1-ElectronicsToAtomistics/Calculations/2-KPointStudy/kpoint_study.sh[lines=1..47]
+----
+
+The top of this script will look similar to the `./energy_offset.sh` script and includes the familiar user-defined variables for `COMPUTING_LANGUAGE`, `NUM_PROC`, and `UNDER_PROC`.
+However, this includes two new variables--`CUTOFF_ENERGIES` and `KPOINTS`--to prescribe the design points for a sensitivity analysis of the appropriate cutoff energy and sufficient number of k-points.
+The `EQ_OF_STATE` variable controls the equation of state to calculate electron energies that is the second positional argument to the compiled `"evfit"` which should be LINE:64 of `./ev_curve`.
+The `ENERGY_OFFSET`, calculated and updated from the `./energy_offset.sh` script, is used to subtract the background energy associated with the pseudopotential and set the proper range for the `EvsA` and `EvsV` curves.
+
+Even with parallel processing, this script can take a long time to calculate depending on the range of cutoff energies and k-ponts.
+Therefore, assign the desired range of design points and go make a coffee.
+Upon calculating all the design points, the `./which_ecutwfc.<ext>` helper script will be called with the appropriate computing language to summarize the output data from each design point into a series of plots.
+These plots serve as a means for visual inspection of convergence.
+Later adapations of this helper script might automate the selection of the converged cutoff energy and number of k-points.
