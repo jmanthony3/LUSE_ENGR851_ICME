@@ -3,14 +3,22 @@ name: Documentation
 on:
   push:
     branches: main
-    tags: '*'
+    tags: "DOCS"
   pull_request:
-
+  workflow_dispatch:
 permissions:
   contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   docs:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -19,7 +27,10 @@ jobs:
         ruby-version: ["3.3"]
         python-version: ["3.9"]
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -41,3 +52,5 @@ jobs:
         DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }} # If authenticating with SSH deploy key
       # run: asciidoxy --image-dir={image_dir} --build-dir={buildPath} --destination-dir={adocPath} --cache-dir={cachePath} --multipage --require=asciidoctor-bibtex --require=asciidoctor-pdf filename
       run: asciidoxy --base-dir=docs/src --destination-dir=docs/build --cache-dir=docs/cache --multipage --require=asciidoctor-bibtex docs/src/index.adoc
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
