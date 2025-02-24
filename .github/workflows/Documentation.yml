@@ -47,9 +47,9 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install asciidoxy
     - name: Build docs
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # If authenticating with GitHub Actions token
-        DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }} # If authenticating with SSH deploy key
+      # env:
+      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # If authenticating with GitHub Actions token
+      #   DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }} # If authenticating with SSH deploy key
       # run: asciidoxy --image-dir={image_dir} --build-dir={buildPath} --destination-dir={adocPath} --cache-dir={cachePath} --multipage --require=asciidoctor-bibtex --require=asciidoctor-pdf filename
       run: asciidoxy --base-dir=docs/src --destination-dir=docs/build --cache-dir=docs/cache --multipage --require=asciidoctor-bibtex docs/src/index.adoc
     - name: Deploy to GitHub Pages
