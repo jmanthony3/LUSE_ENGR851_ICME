@@ -4,7 +4,8 @@ logs/
 *
 
 # do NOT ignore the following
-!docs/
+!docs/old
+!docs/src
 !clean.sh
 !LICENSE
 !README.md

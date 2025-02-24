@@ -1,0 +1,23 @@
+= 2-AtomisticsToDislocationMobility
+This length scale requires the use of pseudopotential files as input to Quantum Espresso to dictate how electronic energies are calculated (discussed in detail link:./2-AtomisticsToDislocationMobility/index.html[here]).
+Visit any of the following for a pseudopotential file of choice:
+
+
+
+== Files
+
+
+
+== Calculations
+
+
+=== Energy Offset
+include::./energy_offset.adoc[]
+
+
+=== K-Point Study
+include::./kpoint_study.adoc[]
+
+
+=== GSFE Curve
+include::./gsfe_curve.adoc[]
