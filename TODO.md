@@ -4,7 +4,7 @@
   - [ ] Bridge 1: Electronics to Atomistics
   - [ ] Bridge 2: Atomistics to Dislocation Mobility
   - [ ] Bridge 3: Dislocation Mobility to Crystal Plasticity
-- [ ] Uses GitHub actions and YAML to build docs.
+- [x] ~~Uses GitHub actions and YAML to build docs.~~ Workflow solved in [511aed](https://github.com/jmanthony3/LUSE_ENGR851_ICME/commit/511aedb11cea162de1cb2069f8115858e62811aa)
 - [ ] Add instructions for installing MATLAB tools.
 
 ## Bridges
