@@ -1,0 +1,5 @@
+= Common Issues
+== Ubuntu Compatibility
+include::./ubuntu_versions.adoc[]
+
+${cross_document_ref("../index.adoc")}

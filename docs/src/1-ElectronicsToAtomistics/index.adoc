@@ -58,3 +58,5 @@ include::./kpoint_study.adoc[]
 
 === GSFE Curve
 include::./gsfe_curve.adoc[]
+
+${cross_document_ref("../index.adoc")}

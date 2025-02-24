@@ -11,13 +11,15 @@ Visit any of the following for a pseudopotential file of choice:
 == Calculations
 
 
-=== Energy Offset
-include::./energy_offset.adoc[]
+// === Energy Offset
+// include::./energy_offset.adoc[]
 
 
-=== K-Point Study
-include::./kpoint_study.adoc[]
+// === K-Point Study
+// include::./kpoint_study.adoc[]
 
 
-=== GSFE Curve
-include::./gsfe_curve.adoc[]
+// === GSFE Curve
+// include::./gsfe_curve.adoc[]
+
+${cross_document_ref("../index.adoc")}

@@ -1,3 +1,5 @@
 = 3-DislocationMobilityToCrystalPlasticity
 This length scale requires the use of pseudopotential files as input to Quantum Espresso to dictate how electronic energies are calculated (discussed in detail link:./3-DislocationMobilityToCrystalPlasticity/index.html[here]).
 Visit any of the following for a pseudopotential file of choice:
+
+${cross_document_ref("../index.adoc")}
