@@ -12,12 +12,6 @@ logs/
 !setup.sh
 !TODO.md
 ## 1-ElectronicsToAtomistics
-1-ElectronicsToAtomistics/Calculations/1-EnergyOffset/energy_offset.sh
-1-ElectronicsToAtomistics/Calculations/2-KPointStudy/kpoint_study.sh
-1-ElectronicsToAtomistics/Calculations/2-KPointStudy/which_ecutwfc.jl
-1-ElectronicsToAtomistics/Calculations/2-KPointStudy/which_ecutwfc.py
-1-ElectronicsToAtomistics/Calculations/3-GSFE/gsfe_create.sh
-1-ElectronicsToAtomistics/Calculations/3-GSFE/gsfe_process.sh
 !1-ElectronicsToAtomistics/Calculations/Fe.library.meam
 !1-ElectronicsToAtomistics/Calculations/Fe.parameter.meam
 !1-ElectronicsToAtomistics/Calculations/Fe.pbe-spn-kjpaw_psl.0.2.1.UPF
@@ -45,17 +39,6 @@ logs/
 !1-ElectronicsToAtomistics/packages.jl
 !1-ElectronicsToAtomistics/setup.sh
 ## 2-AtomisticsToDislocations
-2-AtomisticsToDislocations/Calculations/1-DislocationVelocity/dislocation_position.jl
-2-AtomisticsToDislocations/Calculations/1-DislocationVelocity/dislocation_position.py
-2-AtomisticsToDislocations/Calculations/1-DislocationVelocity/dislocation_velocity.jl
-2-AtomisticsToDislocations/Calculations/1-DislocationVelocity/dislocation_velocity.py
-2-AtomisticsToDislocations/Calculations/1-DislocationVelocity/dislocation_velocity.sh
-2-AtomisticsToDislocations/Calculations/2-MDDP/bcc.sh
-2-AtomisticsToDislocations/Calculations/2-MDDP/fcc.sh
-2-AtomisticsToDislocations/Calculations/2-MDDP/mddp.sh
-2-AtomisticsToDislocations/Calculations/2-MDDP/run.sh
-2-AtomisticsToDislocations/Calculations/2-MDDP/stress_strain.jl
-2-AtomisticsToDislocations/Calculations/2-MDDP/stress_strain.py
 !2-AtomisticsToDislocations/Files/atoms.sh
 !2-AtomisticsToDislocations/Files/bcc.sh
 !2-AtomisticsToDislocations/Files/Cu.compress.Size3.in
@@ -82,9 +65,6 @@ logs/
 !2-AtomisticsToDislocations/packages.jl
 !2-AtomisticsToDislocations/setup.sh
 ## 3-DislocationMobilityToCrystalPlasticity
-3-DislocationMobilityToCrystalPlasticity/Calculations/1-CPFEM/cpfem.sh
-3-DislocationMobilityToCrystalPlasticity/Calculations/1-CPFEM/voce_hardening_fit.jl
-3-DislocationMobilityToCrystalPlasticity/Calculations/1-CPFEM/voce_hardening_fit.py
 !3-DislocationMobilityToCrystalPlasticity/Files/bcc.sx
 !3-DislocationMobilityToCrystalPlasticity/Files/cpfem.sh
 !3-DislocationMobilityToCrystalPlasticity/Files/fcc.sx
