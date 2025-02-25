@@ -210,6 +210,12 @@ cp "gsfe_curve.$cl_ext" "../Calculations/0-Scripts/"
 cp "OutputFileCreator.$cl_ext" "../Calculations/0-Scripts/"
 cp "OutputFileSummarizer.$cl_ext" "../Calculations/0-Scripts/"
 cp "rescale_commands.sh" "../Calculations/0-Scripts/"
+cp "energy_offset.sh" "../Calculations/1-EnergyOffset/"
+cp "kpoint_study.sh" "../Calculations/2-KPointStudy/"
+cp "which_ecutwfc.jl" "../Calculations/2-KPointStudy/"
+cp "which_ecutwfc.py" "../Calculations/2-KPointStudy/"
+cp "gsfe_create.sh" "../Calculations/3-GSFE/"
+cp "gsfe_process.sh" "../Calculations/3-GSFE/"
 
 
 

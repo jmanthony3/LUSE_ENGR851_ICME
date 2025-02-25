@@ -53,6 +53,9 @@ cp "rescale_commands.sh" "./test/RescaleUpload/"
 ### populate "../Calculations/0-Scripts/" folder
 mkdir "../Calculations/0-Scripts/" 2> /dev/null
 cp "rescale_commands.sh" "../Calculations/0-Scripts/"
+cp "cpfem.sh" "../Calculations/1-CPFEM/"
+cp "voce_hardening_fit.jl" "../Calculations/1-CPFEM/"
+cp "voce_hardening_fit.py" "../Calculations/1-CPFEM/"
 
 
 

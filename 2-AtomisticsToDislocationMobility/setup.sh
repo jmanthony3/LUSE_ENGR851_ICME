@@ -98,6 +98,17 @@ cp "atoms.sh" "./test/RescaleUpload/"
 mkdir "../Calculations/0-Scripts/" 2> /dev/null
 cp "rescale_commands.sh" "../Calculations/0-Scripts/"
 cp "atoms.sh" "../Calculations/0-Scripts/"
+cp "dislocation_velocity.sh" "../Calculations/1-DislocationVelocity/"
+cp "dislocation_position.jl" "../Calculations/1-DislocationVelocity/"
+cp "dislocation_position.py" "../Calculations/1-DislocationVelocity/"
+cp "dislocation_velocity.jl" "../Calculations/1-DislocationVelocity/"
+cp "dislocation_velocity.py" "../Calculations/1-DislocationVelocity/"
+cp "mddp.sh" "../Calculations/2-MDDP/"
+cp "bcc.sh" "../Calculations/2-MDDP/"
+cp "fcc.sh" "../Calculations/2-MDDP/"
+cp "run.sh" "../Calculations/2-MDDP/"
+cp "stress_strain.jl" "../Calculations/2-MDDP/"
+cp "stress_strain.py" "../Calculations/2-MDDP/"
 
 
 ### get python3 packages for future scripts
