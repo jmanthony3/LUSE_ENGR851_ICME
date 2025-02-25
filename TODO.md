@@ -1,5 +1,6 @@
 # TODO
 ## Repository
+- [ ] Move `~/Calculations/` scripts to be copied from `~/Files/`: this will preserve user-edits upon "fetch"
 - [ ] Fill in docs for concepts of each bridge.
   - [ ] Bridge 1: Electronics to Atomistics
   - [ ] Bridge 2: Atomistics to Dislocation Mobility
