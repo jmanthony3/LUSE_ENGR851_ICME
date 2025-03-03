@@ -48,3 +48,5 @@ cd ./3-DislocationMobilityToCrystalPlasticity/Calculations/1-CPFEM
 rm -rf !("cpfem.sh"|"voce_hardening_fit.jl"|"voce_hardening_fit.py")
 cd $execution_dir
 rm -rf ./3-DislocationMobilityToCrystalPlasticity/Files/test
+
+shopt -u extglob
