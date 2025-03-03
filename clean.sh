@@ -5,7 +5,7 @@ execution_dir=$(pwd)  # where script executes from
 shopt -s extglob
 
 # remove installed packages
-sudo apt-get -y remove bc pv gfortran build-essential \
+sudo apt-get -y purge bc pv gfortran build-essential \
     quantum-espresso python3-pip python2 curl expect p7zip-full
 
 # remove other install programs
