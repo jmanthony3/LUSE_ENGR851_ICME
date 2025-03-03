@@ -16,6 +16,7 @@ rm -rf ~/Ovito
 
 # clean up registry
 sudo apt-get -y autoremove
+sudo apt-get -y clean
 
 # clean out generated directories/files
 ## ./1-ElectronicsToAtomistics
