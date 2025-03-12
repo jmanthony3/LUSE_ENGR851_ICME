@@ -44,7 +44,7 @@ EQ_OF_STATE=4
 
 
 ####################### `EvA_EvV_plot.py` #####################
-ENERGY_OFFSET=4479.47132505 # [Ry]
+ENERGY_OFFSET=4479.47132505 # [eV]
 
 
 
