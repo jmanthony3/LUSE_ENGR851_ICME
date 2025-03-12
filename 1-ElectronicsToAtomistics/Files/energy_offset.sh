@@ -131,7 +131,7 @@ rm -r "temp/" # remove calculations temporary folder
 ### grab `total energy`, which is in [Ry], from `.out` file
 energy_offset=$( # grabs only the [Ry] value
     sed -n "s%\![[:space:]]*total energy[[:space:]]* = [[:space:]]*%%p" \
-        "$input_filename.out" | sed "s% Ry$%%"
+        "$input_filename.out" | head -1 | sed "s% Ry$%%"
 )
 # '*-13.6057' converts [Ry] to [eV]
 energy_offset=$(echo "$energy_offset*-13.6057" | bc)

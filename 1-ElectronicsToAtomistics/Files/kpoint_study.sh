@@ -233,7 +233,7 @@ K_POINTS (automatic)
         echo "$K $bulk_gpa" >> "./GvsK.dat"
         conv_time=$(sed -n "s%^Total RUN time (sec)           = %%p" "SUMMARY.$cutoff_energy.$K")
         conv_iter=$(sed -n "s%^[[:blank:]]*convergence has been achieved in[[:blank:]]*%%p" \
-            "$input_filename.out" | sed "s% iterations$%%")
+            "$input_filename.out" | head -1 | sed "s% iterations$%%")
         echo "$K $conv_time $conv_iter" >> "./TvsK.dat"
         echo -e -n "                                                        \r"
         # end of `K`-point
