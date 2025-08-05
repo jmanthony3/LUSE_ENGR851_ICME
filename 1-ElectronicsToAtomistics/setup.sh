@@ -6,12 +6,12 @@
 # define install path for Quantum Espresso (QE)
 QUANTUM_ESPRESSO_INSTALL_LOC=~/QuantumEspresso
 # encode name and version of tarball: qe-X.X.X
-QUANTUM_ESPRESSO_VERSION="qe-6.0.0"
+QUANTUM_ESPRESSO_VERSION="qe-7.3.1"
 # working language to perform calculations and plot results
 COMPUTING_LANGUAGE="Julia" # (recommended); can also be "Python"
 # number of processors to use in test case
 NUM_PROC=$(nproc)   # grabs all cores available by default
-UNDER_PROC=2        # number of cores to under-subscribe, if possible
+UNDER_PROC=4        # number of cores to under-subscribe, if possible
 
 
 
